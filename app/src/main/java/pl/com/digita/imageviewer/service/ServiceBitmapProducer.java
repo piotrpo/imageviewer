@@ -80,6 +80,8 @@ public class ServiceBitmapProducer extends Service {
     public void cancelCurrentTask() {
         if (mAsyncFileDownloader != null && mAsyncFileDownloader.getStatus().equals(AsyncTask.Status.RUNNING)) {
             mAsyncFileDownloader.cancel(true);
+
+
         }
     }
 
@@ -125,8 +127,10 @@ public class ServiceBitmapProducer extends Service {
                 AsyncBitmapDecoder bitmapDecoder = new AsyncBitmapDecoder(ServiceBitmapProducer.this, new AsyncBitmapDecoder.IBitmapDecoderCallback() {
                     @Override
                     public void onBitmapDecoded(Bitmap pBitmap) {
-                        broadcastBitmap(pBitmap);
-                        mBitmapMemoryCache.put(pUrl, pBitmap);
+                        if (pBitmap != null && pUrl != null) {
+                            broadcastBitmap(pBitmap);
+                            mBitmapMemoryCache.put(pUrl, pBitmap);
+                        }
                     }
                 });
                 bitmapDecoder.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, pFile);

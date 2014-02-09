@@ -3,6 +3,7 @@ package pl.com.digita.imageviewer;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.PowerManager;
+import android.util.Log;
 import pl.com.digita.imageviewer.utils.ApplicationUtils;
 
 import java.io.*;
@@ -80,6 +81,9 @@ public class AsyncFileDownloader extends AsyncTask<String, Integer, File> {
                     // allow canceling
                     if (isCancelled()) {
 
+                        input.close();
+                        output.close();
+
                         return null;
                     }
                     total += count;
@@ -115,18 +119,10 @@ public class AsyncFileDownloader extends AsyncTask<String, Integer, File> {
 
     @Override
     protected void onPostExecute(File result) {
-        if (mObserver != null) {
+        if (mObserver != null && result != null) {
 
             mObserver.onFileAvailable(result);
         }
-
-        //delete partially downloaded file
-        if (result == null) {
-            //noinspection ResultOfMethodCallIgnored
-            mFileResult.delete();
-        }
-
-
     }
 
     @Override
@@ -134,6 +130,12 @@ public class AsyncFileDownloader extends AsyncTask<String, Integer, File> {
         if (mObserver != null) {
             mObserver.onProgressPublished(values[0], values[1]);
         }
+    }
+
+    @Override
+    protected void onCancelled() {
+        mFileResult.delete();
+        super.onCancelled();
     }
 
     private void claimDownloadError() {

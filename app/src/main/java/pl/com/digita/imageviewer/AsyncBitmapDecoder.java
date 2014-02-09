@@ -36,8 +36,18 @@ public class AsyncBitmapDecoder extends AsyncTask<File, Void, Bitmap> {
             e.printStackTrace();
         }
 
+        //if bitmap can't be decoded -> clear cache
+        if (bitmap == null) {
+            pFile.delete();
+        }
+
 
         return bitmap;
+    }
+
+    @Override
+    protected void onPostExecute(Bitmap result) {
+        claimBitmapDecoded(result);
     }
 
     private Point measureScreen() {
@@ -46,11 +56,6 @@ public class AsyncBitmapDecoder extends AsyncTask<File, Void, Bitmap> {
         screenDimension.x = mContext.getResources().getDisplayMetrics().widthPixels;
         screenDimension.y = mContext.getResources().getDisplayMetrics().heightPixels;
         return screenDimension;
-    }
-
-    @Override
-    protected void onPostExecute(Bitmap result) {
-        claimBitmapDecoded(result);
     }
 
     private int getRatio(Point pTargetDimension, File pFile) {
@@ -99,7 +104,7 @@ public class AsyncBitmapDecoder extends AsyncTask<File, Void, Bitmap> {
         return BitmapFactory.decodeStream(bitmapInputStream, null, bitmapFactoryOptions);
     }
 
-    public interface IBitmapDecoderCallback{
+    public interface IBitmapDecoderCallback {
         public void onBitmapDecoded(Bitmap pBitmap);
     }
 }
