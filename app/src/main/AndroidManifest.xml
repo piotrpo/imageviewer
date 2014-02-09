@@ -25,8 +25,6 @@
         <activity
             android:name="pl.com.digita.imageviewer.ui.activity.ActivityListOfNotes"
             android:label="@string/title_activity_activity_list_of_notes" >
-
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
