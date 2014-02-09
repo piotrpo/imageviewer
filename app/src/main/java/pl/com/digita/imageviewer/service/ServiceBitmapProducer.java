@@ -58,7 +58,6 @@ public class ServiceBitmapProducer extends Service {
     }
 
 
-
     @Override
     public boolean onUnbind(Intent intent) {
         // this method should be called only when all binders are released
@@ -78,8 +77,8 @@ public class ServiceBitmapProducer extends Service {
         mIsBound = true;
     }
 
-    public void cancelCurrentTask(){
-        if(mAsyncFileDownloader == null && mAsyncFileDownloader.getStatus().equals(AsyncTask.Status.RUNNING)){
+    public void cancelCurrentTask() {
+        if (mAsyncFileDownloader == null && mAsyncFileDownloader.getStatus().equals(AsyncTask.Status.RUNNING)) {
             mAsyncFileDownloader.cancel(true);
         }
     }
@@ -103,8 +102,11 @@ public class ServiceBitmapProducer extends Service {
      */
     public void deliverBitmap(final String pUrl) {
 
+        if (isBitmapDownloading(pUrl)) {
+            return;
+        }
         Bitmap bitmap = mBitmapMemoryCache.get(pUrl);
-        if(bitmap != null){
+        if (bitmap != null) {
             broadcastBitmap(bitmap);
             return;
         }
@@ -140,6 +142,10 @@ public class ServiceBitmapProducer extends Service {
 
     }
 
+    private boolean isBitmapDownloading(String pUrl) {
+        return mAsyncFileDownloader != null && mAsyncFileDownloader.getUrl().equals(pUrl) && mAsyncFileDownloader.getStatus().equals(AsyncTask.Status.RUNNING);
+    }
+
     private void broadcastBitmap(Bitmap pScaledBitmap) {
         Intent intent = new Intent(ApplicationUtils.ACTION_BITMAP_READY);
         intent.putExtra(ApplicationUtils.EXTRA_BITMAP, pScaledBitmap);
@@ -147,7 +153,6 @@ public class ServiceBitmapProducer extends Service {
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
 
     }
-
 
 
     private void sendProgressStatus(boolean hasError, int progress, int downloaded) {

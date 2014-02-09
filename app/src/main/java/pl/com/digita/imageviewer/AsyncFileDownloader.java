@@ -19,21 +19,26 @@ public class AsyncFileDownloader extends AsyncTask<String, Integer, File> {
     private Context mContext;
     private IDownloadTaskCallbacks mObserver;
     private File mFileResult;
+    private String mUrl;
 
     public AsyncFileDownloader(Context pContext, IDownloadTaskCallbacks pObserver) {
         mContext = pContext;
         this.mObserver = pObserver;
     }
 
+    public String getUrl() {
+        return mUrl;
+    }
+
     @Override
     protected File doInBackground(String... sUrl) {
-
+        mUrl = sUrl[0];
         //First check if file is not downloaded yet
         File cacheDir = mContext.getCacheDir();
         String fileName = ApplicationUtils.md5(sUrl[0]);
         mFileResult = new File(cacheDir, fileName);
 
-        if(mFileResult.exists()){
+        if (mFileResult.exists()) {
             return mFileResult;
         }
 
@@ -108,38 +113,35 @@ public class AsyncFileDownloader extends AsyncTask<String, Integer, File> {
         return mFileResult;
     }
 
-    private void claimDownloadError() {
-        if(mObserver != null){
-
-
-            mObserver.onError();
-
-        }
-
-    }
-
-
-
-    @Override
-    protected void onProgressUpdate(Integer... values) {
-        if(mObserver != null){
-            mObserver.onProgressPublished(values[0], values[1]);
-        }
-    }
-
     @Override
     protected void onPostExecute(File result) {
-        if(mObserver != null){
+        if (mObserver != null) {
 
             mObserver.onFileAvailable(result);
         }
 
         //delete partially downloaded file
-        if(result == null){
+        if (result == null) {
             mFileResult.delete();
         }
 
 
+    }
+
+    @Override
+    protected void onProgressUpdate(Integer... values) {
+        if (mObserver != null) {
+            mObserver.onProgressPublished(values[0], values[1]);
+        }
+    }
+
+    private void claimDownloadError() {
+        if (mObserver != null) {
+
+
+            mObserver.onError();
+
+        }
 
     }
 
