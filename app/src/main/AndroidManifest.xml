@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="pl.com.digita.imageviewer" >
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="pl.com.digita.imageviewer.ui.activity.ActivityShowImage"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+        </activity>
+
+        <service
+            android:name="pl.com.digita.imageviewer.service.ServiceBitmapProducer"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
+
+        <activity
+            android:name="pl.com.digita.imageviewer.ui.activity.ActivityListOfNotes"
+            android:label="@string/title_activity_activity_list_of_notes" >
+
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+
+        </activity>
+    </application>
+
+</manifest>
