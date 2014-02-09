@@ -84,7 +84,7 @@ public class ActivityShowImage extends Activity {
             mProgressBar.setIndeterminate(false);
             mProgressBar.setProgress(downloadProgress);
 
-            mTextViewProgress.setText(getString(R.string.label_downloaded_bytes)+(downloadedData/1024) +"kB");
+            mTextViewProgress.setText(getString(R.string.label_downloaded_bytes)+" "+(downloadedData/1024) +" kB");
         } else {
             mProgressBar.setIndeterminate(true);
             mTextViewProgress.setText(getString(R.string.label_decoding_bitmap));
