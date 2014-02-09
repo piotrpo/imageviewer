@@ -30,6 +30,9 @@ import java.util.List;
  */
 public class FragmentNotes extends Fragment {
 
+
+
+    @SuppressWarnings("FieldCanBeLocal") //suppressed to prevent week referenced for async task
     private RestAdapter mRestAdapter;
     private ListView mListView;
     private FragmentNotes.NotesAdapter mAdapter;
@@ -80,13 +83,14 @@ public class FragmentNotes extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_activity_list_of_notes, container, false);
 
+        //noinspection ConstantConditions
         mListView = (ListView) rootView.findViewById(R.id.list_view_notes);
         return rootView;
     }
 
 
     private class NotesAdapter extends ArrayAdapter<Note> {
-        LayoutInflater mLayoutInflater;
+        final LayoutInflater mLayoutInflater;
 
         public NotesAdapter(Context context, int resource, List<Note> objects) {
             super(context, resource, objects);
@@ -100,7 +104,7 @@ public class FragmentNotes extends Fragment {
                 convertView = mLayoutInflater.inflate(R.layout.item_note, null);
             }
 
-            TextView textViewTitle = (TextView) convertView.findViewById(R.id.text_view_title);
+            @SuppressWarnings("ConstantConditions") TextView textViewTitle = (TextView) convertView.findViewById(R.id.text_view_title);
 
             textViewTitle.setText(getItem(position).getTitle());
 

@@ -26,8 +26,8 @@ public class ServiceBitmapProducer extends Service {
     private static final int INT_SERVICE_DEATH_DELAY = 20;
 
 
-    private BinderServiceBitmapProducer mThisServiceBinder = new BinderServiceBitmapProducer();
-    private Handler mHandler = new Handler();
+    private final BinderServiceBitmapProducer mThisServiceBinder = new BinderServiceBitmapProducer();
+    private final Handler mHandler = new Handler();
     private boolean mIsBound = false;
     private BitmapLruCache mBitmapMemoryCache;
     private LocalBroadcastManager mLocalBroadcastManager;
@@ -78,7 +78,7 @@ public class ServiceBitmapProducer extends Service {
     }
 
     public void cancelCurrentTask() {
-        if (mAsyncFileDownloader == null && mAsyncFileDownloader.getStatus().equals(AsyncTask.Status.RUNNING)) {
+        if (mAsyncFileDownloader != null && mAsyncFileDownloader.getStatus().equals(AsyncTask.Status.RUNNING)) {
             mAsyncFileDownloader.cancel(true);
         }
     }

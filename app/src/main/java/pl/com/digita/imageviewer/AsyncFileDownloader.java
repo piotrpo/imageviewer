@@ -16,8 +16,8 @@ import java.net.URL;
 public class AsyncFileDownloader extends AsyncTask<String, Integer, File> {
 
 
-    private Context mContext;
-    private IDownloadTaskCallbacks mObserver;
+    private final Context mContext;
+    private final IDownloadTaskCallbacks mObserver;
     private File mFileResult;
     private String mUrl;
 
@@ -122,6 +122,7 @@ public class AsyncFileDownloader extends AsyncTask<String, Integer, File> {
 
         //delete partially downloaded file
         if (result == null) {
+            //noinspection ResultOfMethodCallIgnored
             mFileResult.delete();
         }
 

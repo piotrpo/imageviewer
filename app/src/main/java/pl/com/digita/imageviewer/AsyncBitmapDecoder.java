@@ -14,8 +14,8 @@ import java.io.FileNotFoundException;
  * Simple worker extending AsyncTask that can decode bitmap adjusted to current screen size
  */
 public class AsyncBitmapDecoder extends AsyncTask<File, Void, Bitmap> {
-    private Context mContext;
-    private IBitmapDecoderCallback mObserver;
+    private final Context mContext;
+    private final IBitmapDecoderCallback mObserver;
 
     public AsyncBitmapDecoder(Context pContext, IBitmapDecoderCallback pObserver) {
         mContext = pContext;
@@ -96,8 +96,7 @@ public class AsyncBitmapDecoder extends AsyncTask<File, Void, Bitmap> {
         BitmapFactory.Options bitmapFactoryOptions = new BitmapFactory.Options();
         bitmapFactoryOptions.inSampleSize = ratio;
         FileInputStream bitmapInputStream = new FileInputStream(bitmapFile);
-        Bitmap bitmap = BitmapFactory.decodeStream(bitmapInputStream, null, bitmapFactoryOptions);
-        return bitmap;
+        return BitmapFactory.decodeStream(bitmapInputStream, null, bitmapFactoryOptions);
     }
 
     public interface IBitmapDecoderCallback{

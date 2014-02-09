@@ -18,8 +18,7 @@
 
         <service
             android:name="pl.com.digita.imageviewer.service.ServiceBitmapProducer"
-            android:enabled="true"
-            android:exported="true" >
+            android:enabled="true">
         </service>
 
         <activity

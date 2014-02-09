@@ -13,6 +13,7 @@ public class BitmapLruCache extends LruCache<String, Bitmap> {
         this(DEFAULT_CACHE_SIZE);
     }
 
+    @SuppressWarnings("WeakerAccess")
     public BitmapLruCache(int maxSize) {
         super(maxSize);
     }
@@ -24,13 +25,5 @@ public class BitmapLruCache extends LruCache<String, Bitmap> {
     }
 
 
-    public Bitmap getBitmap(String url) {
-        return get(url);
-    }
-
-
-    public void putBitmap(String url, Bitmap bitmap) {
-        put(url, bitmap);
-    }
 
 }
